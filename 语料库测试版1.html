@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh‑CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>甘肃中医药大学中医术语英汉双语语料库</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", Arial, sans‑serif;
+            background-color: #ffffff;
+            color: #333333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #2e7d32; /* 深绿 */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 1.1em;
+            color: #2e7d32;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            font-size: 1.1em;
+            color: white;
+            background-color: #ffb300; /* 黄色 */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #ffa000;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f1f8e9; /* 浅绿 */
+            border: 1px solid #c5e1a5;
+            border-radius: 4px;
+            font-size: 1.1em;
+            color: #1b5e20;
+        }
+        footer {
+            margin-top: 60px;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777777;
+            background-color: #e0e0e0;
+        }
+
+        /* 手机端优化 */
+        @media (max-width: 600px) {
+            label {
+                font-size: 1em;
+            }
+            input[type="text"] {
+                font-size: 1em;
+                padding: 10px;
+            }
+            button {
+                font-size: 1em;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>甘肃中医药大学中医术语英汉双语语料库</h1>
+    </header>
+    <div class="container">
+        <label for="termInput">请输入中医汉语术语或英语术语：</label>
+        <input type="text" id="termInput" placeholder="例如：气 / qi">
+        <button id="searchBtn">查找对应术语</button>
+        <div id="resultBox" class="result" style="display: none;"></div>
+    </div>
+    <footer>
+        人文外国语 李晓轩 制作
+    </footer>
+
+    <script>
+        // 当用户点击按钮时，进行搜索
+        document.getElementById("searchBtn").addEventListener("click", function(){
+            const input = document.getElementById("termInput").value.trim();
+            if (!input) {
+                alert("请输入术语后再查找。");
+                return;
+            }
+
+            // 格式化输入并创建Bing搜索的URL
+            const formattedInput = encodeURIComponent(input);
+            let searchUrl = '';
+
+            // 判断输入的术语类型（汉语或英语）
+            if (/[\u4e00-\u9fa5]/.test(input)) {
+                // 如果输入的是汉语，搜索对应的英语术语
+                searchUrl = `https://www.bing.com/search?q=${formattedInput}+in+Chinese+medicine`;
+            } else {
+                // 如果输入的是英语，搜索对应的汉语术语
+                searchUrl = `https://www.bing.com/search?q=${formattedInput}+in+Traditional+Chinese+Medicine`;
+            }
+
+            // 跳转到Bing搜索结果页面
+            window.open(searchUrl, '_blank');
+
+            // 显示搜索提示
+            const resultBox = document.getElementById("resultBox");
+            resultBox.style.display = "block";
+            resultBox.innerHTML = `正在搜索 <strong>${input}</strong>...`;
+        });
+    </script>
+</body>
+</html>
